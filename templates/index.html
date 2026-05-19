@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>AI News Aggregator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>AI News Aggregator</h1>
+
+        <form method="GET" class="search-form">
+
+            <input type="text" name="search" placeholder="Поиск новостей..." value="{{ search }}">
+
+            <select name="category">
+
+                <option value="">Все категории</option>
+
+                {% for cat in categories %}
+                <option value="{{ cat }}" {% if selected_category==cat %}selected{% endif %}>
+                    {{ cat }}
+                </option>
+                {% endfor %}
+
+            </select>
+
+            <button type="submit">Поиск</button>
+
+        </form>
+
+        <div class="articles">
+
+            {% for article in articles %}
+
+            <div class="card">
+
+                <h2>{{ article.title }}</h2>
+
+                <p class="description">
+                    {{ article.description[:300] }}...
+                </p>
+
+                <div class="meta">
+
+                    <span class="category">
+                        {{ article.category }}
+                    </span>
+
+                    <span>
+                        Источник: {{ article.source }}
+                    </span>
+
+                    <span>
+                        Автор: {{ article.author }}
+                    </span>
+
+                </div>
+
+                <div class="date">
+                    {{ article.published_date }}
+                </div>
+
+                <a href="{{ article.url }}" target="_blank">
+                    Читать полностью
+                </a>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
