@@ -1,82 +1,103 @@
 <!DOCTYPE html>
-<html lang="ru">
-
+<html lang="ru" data-theme="dark">
+ 
 <head>
     <meta charset="UTF-8">
     <title>AI News Aggregator</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-
+ 
 <body>
-
+ 
     <div class="container">
-
-        <h1>AI News Aggregator</h1>
-
+ 
+        <div class="header">
+            <h1>AI News Aggregator</h1>
+            <button class="theme-toggle" id="themeToggle" aria-label="Переключить тему" title="Переключить тему">
+                <span class="theme-icon theme-icon--dark">🌙</span>
+                <span class="theme-icon theme-icon--light">☀️</span>
+            </button>
+        </div>
+ 
         <form method="GET" class="search-form">
-
+ 
             <input type="text" name="search" placeholder="Поиск новостей..." value="{{ search }}">
-
+ 
             <select name="category">
-
+ 
                 <option value="">Все категории</option>
-
+ 
                 {% for cat in categories %}
                 <option value="{{ cat }}" {% if selected_category==cat %}selected{% endif %}>
                     {{ cat }}
                 </option>
                 {% endfor %}
-
+ 
             </select>
-
+ 
             <button type="submit">Поиск</button>
-
+ 
         </form>
-
+ 
         <div class="articles">
-
+ 
             {% for article in articles %}
-
+ 
             <div class="card">
-
+ 
                 <h2>{{ article.title }}</h2>
-
+ 
                 <p class="description">
                     {{ article.description[:300] }}...
                 </p>
-
+ 
                 <div class="meta">
-
+ 
                     <span class="category">
                         {{ article.category }}
                     </span>
-
+ 
                     <span>
                         Источник: {{ article.source }}
                     </span>
-
+ 
                     <span>
                         Автор: {{ article.author }}
                     </span>
-
+ 
                 </div>
-
+ 
                 <div class="date">
                     {{ article.published_date }}
                 </div>
-
+ 
                 <a href="{{ article.url }}" target="_blank">
                     Читать полностью
                 </a>
-
+ 
             </div>
-
+ 
             {% endfor %}
-
+ 
         </div>
-
+ 
     </div>
-
+ 
+    <script>
+        const html = document.documentElement;
+        const btn = document.getElementById('themeToggle');
+ 
+        const saved = localStorage.getItem('theme') || 'dark';
+        html.setAttribute('data-theme', saved);
+ 
+        btn.addEventListener('click', () => {
+            const current = html.getAttribute('data-theme');
+            const next = current === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', next);
+            localStorage.setItem('theme', next);
+        });
+    </script>
+ 
 </body>
-
+ 
 </html>

@@ -1,96 +1,207 @@
+:root {
+    --bg-page:       #0f172a;
+    --bg-surface:    #1e293b;
+    --bg-input:      #1e293b;
+    --text-primary:  #f1f5f9;
+    --text-muted:    #94a3b8;
+    --accent:        #38bdf8;
+    --accent-text:   #000000;
+    --btn-read-bg:   #22c55e;
+    --btn-read-text: #ffffff;
+    --shadow:        rgba(0, 0, 0, 0.3);
+    --border:        transparent;
+}
+ 
+[data-theme="light"] {
+    --bg-page:       #f1f5f9;
+    --bg-surface:    #ffffff;
+    --bg-input:      #f8fafc;
+    --text-primary:  #0f172a;
+    --text-muted:    #64748b;
+    --accent:        #0284c7;
+    --accent-text:   #ffffff;
+    --btn-read-bg:   #16a34a;
+    --btn-read-text: #ffffff;
+    --shadow:        rgba(0, 0, 0, 0.08);
+    --border:        #e2e8f0;
+}
+ 
+/* ===== Сброс и базовые стили ===== */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+ 
 body {
     margin: 0;
     padding: 0;
-    background: #0f172a;
-    color: white;
-    font-family: Arial;
+    background: var(--bg-page);
+    color: var(--text-primary);
+    font-family: Arial, sans-serif;
+    transition: background 0.25s ease, color 0.25s ease;
 }
-
+ 
+/* ===== Шапка ===== */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin-bottom: 40px;
+}
+ 
+h1 {
+    text-align: center;
+    margin: 0;
+    color: var(--accent);
+}
+ 
+/* ===== Кнопка переключения темы ===== */
+.theme-toggle {
+    position: absolute;
+    right: 0;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 50px;
+    padding: 8px 14px;
+    cursor: pointer;
+    font-size: 18px;
+    line-height: 1;
+    transition: background 0.25s ease, transform 0.15s ease;
+    box-shadow: 0 2px 8px var(--shadow);
+}
+ 
+.theme-toggle:hover {
+    transform: scale(1.08);
+}
+ 
+/* Показываем нужную иконку в зависимости от темы */
+[data-theme="dark"]  .theme-icon--light { display: none; }
+[data-theme="dark"]  .theme-icon--dark  { display: inline; }
+[data-theme="light"] .theme-icon--dark  { display: none; }
+[data-theme="light"] .theme-icon--light { display: inline; }
+ 
+/* ===== Контейнер ===== */
 .container {
     width: 90%;
+    max-width: 960px;
     margin: auto;
     padding: 30px;
 }
-
-h1 {
-    text-align: center;
-    margin-bottom: 40px;
-    color: #38bdf8;
-}
-
+ 
+/* ===== Форма поиска ===== */
 .search-form {
     display: flex;
     gap: 10px;
     margin-bottom: 30px;
+    flex-wrap: wrap;
 }
-
+ 
 .search-form input,
 .search-form select {
     padding: 12px;
-    border: none;
+    border: 1px solid var(--border);
     border-radius: 10px;
-    width: 100%;
-    background: #1e293b;
-    color: white;
+    flex: 1 1 160px;
+    background: var(--bg-input);
+    color: var(--text-primary);
+    transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+    outline: none;
 }
-
+ 
+.search-form input:focus,
+.search-form select:focus {
+    border-color: var(--accent);
+}
+ 
+/* Цвет текста placeholder */
+.search-form input::placeholder {
+    color: var(--text-muted);
+}
+ 
+/* Цвет option в select (важно для светлой темы) */
+.search-form select option {
+    background: var(--bg-surface);
+    color: var(--text-primary);
+}
+ 
 .search-form button {
     padding: 12px 20px;
     border: none;
     border-radius: 10px;
-    background: #38bdf8;
-    color: black;
+    background: var(--accent);
+    color: var(--accent-text);
     font-weight: bold;
     cursor: pointer;
+    transition: opacity 0.15s ease, background 0.25s ease;
+    white-space: nowrap;
 }
-
+ 
+.search-form button:hover {
+    opacity: 0.88;
+}
+ 
+/* ===== Карточки статей ===== */
 .articles {
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
-
+ 
 .card {
-    background: #1e293b;
+    background: var(--bg-surface);
     padding: 20px;
     border-radius: 15px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    box-shadow: 0 0 10px var(--shadow);
+    border: 1px solid var(--border);
+    transition: background 0.25s ease, box-shadow 0.25s ease;
 }
-
+ 
 .card h2 {
-    color: #38bdf8;
+    color: var(--accent);
+    margin-top: 0;
 }
-
+ 
 .description {
     margin: 15px 0;
-    line-height: 1.5;
+    line-height: 1.6;
+    color: var(--text-primary);
 }
-
+ 
 .meta {
     display: flex;
     gap: 20px;
     flex-wrap: wrap;
     margin-bottom: 10px;
+    font-size: 14px;
+    color: var(--text-muted);
 }
-
+ 
 .category {
-    background: #38bdf8;
-    color: black;
+    background: var(--accent);
+    color: var(--accent-text);
     padding: 5px 10px;
     border-radius: 8px;
     font-weight: bold;
+    font-size: 13px;
 }
-
+ 
 .date {
-    color: #94a3b8;
+    color: var(--text-muted);
     margin-bottom: 15px;
+    font-size: 14px;
 }
-
+ 
 .card a {
     text-decoration: none;
-    background: #22c55e;
-    color: white;
+    background: var(--btn-read-bg);
+    color: var(--btn-read-text);
     padding: 10px 15px;
     border-radius: 10px;
     display: inline-block;
+    transition: opacity 0.15s ease;
+    font-size: 14px;
+}
+ 
+.card a:hover {
+    opacity: 0.88;
 }
